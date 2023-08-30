@@ -1,5 +1,9 @@
 import './App.css';
-import { HashRouter, NavLink, Routes, Route } from 'react-router-dom';
+
+// DAY 16 - 載入 Routes & Route
+// DAY 18 - 載入 Outlet & useParams
+
+import { HashRouter, NavLink, Routes, Route, Outlet, useParams } from 'react-router-dom';
 
 // DAY 16 - 將頁面拆成元件
 
@@ -19,10 +23,30 @@ import Todo from './pages/Todo';
 
 const NotFound = () => {
   return <p>沒有這個路由(´⊙ω⊙`)</p>
-}
+};
 
 const Index = () => {
   return <h1>Hello React !!</h1>
+};
+
+// DAY 18
+
+const Post = () => {
+  return (
+    <>
+      <h2>POST</h2>
+      <Outlet />
+    </>
+  )
+};
+
+const PostId = () => {
+  
+  let params = useParams();
+
+  return (
+    <p>Your Post ID: {params.postId}</p>
+  )
 }
 
 function App() {
@@ -42,6 +66,12 @@ function App() {
           <NavLink to="/todo">
             <p>Todo 頁面</p>
           </NavLink>
+          <NavLink to="/post">
+            <p>Post 頁面</p>
+          </NavLink>
+          <NavLink to="/post/12345">
+            <p>Post 詳細</p>
+          </NavLink>
         </div>
         {/* Routes, Route 練習區 */}
         <Routes>
@@ -50,6 +80,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/todo" element={<Todo />} />
           <Route path="*" element={<NotFound />} />
+          {/* DAY18 巢狀路由 */}
+          <Route path="/post" element={<Post />}>
+            <Route path=":postId" element={<PostId />} />
+          </Route>
         </Routes>
         {/* 練習區 */}
       </HashRouter>
